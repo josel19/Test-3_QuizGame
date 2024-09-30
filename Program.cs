@@ -53,13 +53,14 @@ void WantToPlay()
             WantToPlay();
             break;
     }
-
 }
+
 void Play()
 {
     Console.WriteLine("Let's play!");
     SeedQuestionAndOptions();
     PrintQuestions();
+    PrintAnswers();
 }
 
 void NoPlay()
@@ -95,7 +96,19 @@ void GetAnswers(int questionId, List<Option> options)
         QuestionId = questionId,
         SelectedOption = options.Find(opt => opt.id == int.Parse(answer)),
     });
+}
 
+void PrintAnswers()
+{
+    Console.WriteLine("-- This is your grade!");
+    decimal pointsPerAnswer = (10m / Convert.ToDecimal(answers.Count));
+    decimal note = 0;
+    foreach (var answer in answers)
+    {
+        Console.WriteLine($"{answer.QuestionId}.{(answer.SelectedOption.Isvalid ? "Correct." : "Incorrect.")}");
+        note += (answer.SelectedOption.Isvalid ? pointsPerAnswer : 0);
+    }
+    Console.WriteLine($"-- Final grade: {note}");
 }
 
 void SeedQuestionAndOptions(){
